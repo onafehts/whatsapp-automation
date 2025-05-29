@@ -1,0 +1,52 @@
+name: aula-onafehts
+version: '1.0'
+services:  
+  n8n:
+    container_name: n8n
+    image: docker.n8n.io/n8nio/n8n
+    restart: always
+    ports:
+      - "5678:5678"
+    environment:
+      - N8N_PORT=5678
+      - N8N_PROTOCOL=http
+      - N8N_RUNNERS_ENABLED=true
+      - NODE_ENV=production
+      - GENERIC_TIMEZONE=America/Sao_Paulo
+    volumes:
+      - ./n8n_data:/home/node/.n8n
+      - ./local-files:/files
+  evolution_api:
+    container_name: evolution_api
+    image: atendai/evolution-api:latest
+    restart: always
+    depends_on:
+      - postgres
+    ports:
+      - 8080:8080
+    volumes:
+      - ./evolution_instances:/evolution/instances
+    environment:
+      - DATABASE_PROVIDER=postgresql 
+      - CACHE_REDIS_ENABLED=false
+      - AUTHENTICATION_API_KEY=429683C4C977415CAAFCCE10F7D57E11
+      - CONFIG_SESSION_PHONE_VERSION=2.3000.1023204200
+
+  postgres:
+    container_name: postgres
+    image: postgres:15
+    command: ["postgres", "-c", "max_connections=1000", "-c", "listen_addresses=*"]
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=pass
+      - POSTGRES_DB=evolution
+    volumes:
+      - ./postgres_data:/var/lib/postgresql/data
+
+volumes:
+  n8n_data:
+  evolution_instances:
+  postgres_data:
