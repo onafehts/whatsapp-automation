@@ -1,3 +1,4 @@
+name: aula-onafehts
 services:  
   n8n:
     container_name: n8n
