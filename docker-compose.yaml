@@ -29,7 +29,7 @@ services:
       - DATABASE_PROVIDER=postgresql 
       - CACHE_REDIS_ENABLED=false
       - AUTHENTICATION_API_KEY=429683C4C977415CAAFCCE10F7D57E11
-      - CONFIG_SESSION_PHONE_VERSION=2.3000.1023204200
+      - CONFIG_SESSION_PHONE_VERSION=2.3000.1028355510
 
   postgres:
     container_name: postgres
@@ -49,3 +49,4 @@ volumes:
   n8n_data:
   evolution_instances:
   postgres_data:
+
